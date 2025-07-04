@@ -1,0 +1,22 @@
+img{
+    border-radius: 10px;
+}
+.menuimages{
+    width: 70px;
+    height: 70px;
+}
+
+
+#logoBack{
+    font-size: xx-large;
+}
+
+#deliveryOption{
+    color: white;
+    background-color: black;
+}
+
+.imagerec{
+   width: 100px; 
+   height: 100px;
+}

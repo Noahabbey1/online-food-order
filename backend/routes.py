@@ -229,6 +229,9 @@ def create_order():
 
 @app.route("/admin/fix-images", methods=["POST"])
 def fix_images():
+    secret = request.headers.get("X-ADMIN-SECRET")
+    if secret != "your-secret-key":
+        return jsonify({"error": "Unauthorized"}), 401
     try:
         items = MenuItem.query.all()
         count = 0
@@ -237,8 +240,9 @@ def fix_images():
                 filename = item.image.split("/")[-1]
                 item.image = f"https://online-food-order-o3j3.onrender.com/static/uploads/{filename}"
                 count += 1
+                print(f"Updated item {item.id}: {item.image}")
         db.session.commit()
-        return jsonify({"msg": f"Updated {count} image URLs."}), 200
+        return jsonify({"msg": "Image URLs updated.", "updated_count": count}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500

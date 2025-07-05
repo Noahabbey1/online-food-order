@@ -1,12 +1,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+import os
 
 app = Flask(__name__) # part of the configurations 
 CORS(app)
 
-
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///friends.db"  #this will be created locally
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL',
+    'sqlite:///friends.db'
+)  #this will be created locally
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # for faster performance
 db = SQLAlchemy(app)
 

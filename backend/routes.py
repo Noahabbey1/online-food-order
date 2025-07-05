@@ -224,3 +224,21 @@ def create_order():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+
+# ------------------- Admin Routes ---------------------
+
+@app.route("/admin/fix-images", methods=["POST"])
+def fix_images():
+    try:
+        items = MenuItem.query.all()
+        count = 0
+        for item in items:
+            if item.image and "127.0.0.1" in item.image:
+                filename = item.image.split("/")[-1]
+                item.image = f"https://online-food-order-o3j3.onrender.com/static/uploads/{filename}"
+                count += 1
+        db.session.commit()
+        return jsonify({"msg": f"Updated {count} image URLs."}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500

@@ -25,3 +25,7 @@ if __name__ == "__main__":
 @app.route("/")
 def home():
     return "Flask backend is running!"
+@app.route("/")
+def home():
+    return "Flask backend is running!"
+

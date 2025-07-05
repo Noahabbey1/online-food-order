@@ -194,6 +194,20 @@ def hide_order(order_id):
     return jsonify({"msg": f"Order {order_id} hidden successfully"})
 
 
+@app.route("/api/admin/orders/<int:id>", methods=["DELETE"])
+def delete_user(id):
+    try:
+        order = Order.query.get(id)
+        if order is None:
+            return jsonify({"error": "user not found"}), 404
+
+        db.session.delete(order)
+        db.session.commit()
+        return jsonify({"msg": "order deleted"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
 # posting an order 
 @app.route("/api/orders", methods=["POST"])
 def create_order():
@@ -246,3 +260,4 @@ def fix_images():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+Ì
